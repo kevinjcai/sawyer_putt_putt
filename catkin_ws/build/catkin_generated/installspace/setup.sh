@@ -11,7 +11,7 @@
 
 # since this file is sourced either use the provided _CATKIN_SETUP_DIR
 # or fall back to the destination set at configure time
-: ${_CATKIN_SETUP_DIR:=/home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/install}
+: ${_CATKIN_SETUP_DIR:=/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/install}
 _SETUP_UTIL="$_CATKIN_SETUP_DIR/_setup_util.py"
 unset _CATKIN_SETUP_DIR
 

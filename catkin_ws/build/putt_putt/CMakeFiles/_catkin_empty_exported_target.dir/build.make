@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/src
+CMAKE_SOURCE_DIR = /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/build
+CMAKE_BINARY_DIR = /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build
 
 # Utility rule file for _catkin_empty_exported_target.
 
@@ -63,10 +63,10 @@ putt_putt/CMakeFiles/_catkin_empty_exported_target.dir/build: _catkin_empty_expo
 .PHONY : putt_putt/CMakeFiles/_catkin_empty_exported_target.dir/build
 
 putt_putt/CMakeFiles/_catkin_empty_exported_target.dir/clean:
-	cd /home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/build/putt_putt && $(CMAKE_COMMAND) -P CMakeFiles/_catkin_empty_exported_target.dir/cmake_clean.cmake
+	cd /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build/putt_putt && $(CMAKE_COMMAND) -P CMakeFiles/_catkin_empty_exported_target.dir/cmake_clean.cmake
 .PHONY : putt_putt/CMakeFiles/_catkin_empty_exported_target.dir/clean
 
 putt_putt/CMakeFiles/_catkin_empty_exported_target.dir/depend:
-	cd /home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/src /home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/src/putt_putt /home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/build /home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/build/putt_putt /home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/build/putt_putt/CMakeFiles/_catkin_empty_exported_target.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/src /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/src/putt_putt /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build/putt_putt /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build/putt_putt/CMakeFiles/_catkin_empty_exported_target.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : putt_putt/CMakeFiles/_catkin_empty_exported_target.dir/depend
 
