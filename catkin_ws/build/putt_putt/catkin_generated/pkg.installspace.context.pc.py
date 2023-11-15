@@ -4,5 +4,5 @@ PROJECT_PKG_CONFIG_INCLUDE_DIRS = "".split(';') if "" != "" else []
 PROJECT_CATKIN_DEPENDS = "".replace(';', ' ')
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "".split(';') if "" != "" else []
 PROJECT_NAME = "putt_putt"
-PROJECT_SPACE_DIR = "/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/install"
+PROJECT_SPACE_DIR = "/home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/install"
 PROJECT_VERSION = "0.0.0"

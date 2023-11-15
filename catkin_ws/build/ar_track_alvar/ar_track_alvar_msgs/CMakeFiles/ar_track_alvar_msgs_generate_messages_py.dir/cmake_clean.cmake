@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/devel/lib/python3/dist-packages/ar_track_alvar_msgs/msg/_AlvarMarker.py"
-  "/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/devel/lib/python3/dist-packages/ar_track_alvar_msgs/msg/_AlvarMarkers.py"
-  "/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/devel/lib/python3/dist-packages/ar_track_alvar_msgs/msg/__init__.py"
+  "/home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/devel/lib/python3/dist-packages/ar_track_alvar_msgs/msg/_AlvarMarker.py"
+  "/home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/devel/lib/python3/dist-packages/ar_track_alvar_msgs/msg/_AlvarMarkers.py"
+  "/home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/devel/lib/python3/dist-packages/ar_track_alvar_msgs/msg/__init__.py"
   "CMakeFiles/ar_track_alvar_msgs_generate_messages_py"
 )
 

@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/devel/lib/ar_track_alvar/trainMarkerBundle"
-  "/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/devel/lib/ar_track_alvar/trainMarkerBundle.pdb"
+  "/home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/devel/lib/ar_track_alvar/trainMarkerBundle"
+  "/home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/devel/lib/ar_track_alvar/trainMarkerBundle.pdb"
   "CMakeFiles/trainMarkerBundle.dir/nodes/TrainMarkerBundle.cpp.o"
 )
 

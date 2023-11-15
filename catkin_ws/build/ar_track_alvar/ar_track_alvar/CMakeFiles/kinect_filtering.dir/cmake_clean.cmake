@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/devel/lib/libkinect_filtering.pdb"
-  "/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/devel/lib/libkinect_filtering.so"
+  "/home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/devel/lib/libkinect_filtering.pdb"
+  "/home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/devel/lib/libkinect_filtering.so"
   "CMakeFiles/kinect_filtering.dir/src/kinect_filtering.cpp.o"
 )
 
