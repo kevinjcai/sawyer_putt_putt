@@ -55,6 +55,7 @@ class MotionPath:
         traj.joint_names = self.limb.joint_names()
         points = []
         for t in np.linspace(0, self.trajectory.total_time, num=num_waypoints):
+            print(f"t/jointspace: {t} / {jointspace}")
             point = self.trajectory_point(t, jointspace)
             points.append(point)
 
@@ -80,6 +81,7 @@ class MotionPath:
         Returns:
             np.ndarray: joint angles for the robot
         """
+        print(f"final_pose: {final_pose}")
         service_name = "ExternalTools/right/PositionKinematicsNode/IKService"
         ik_service_proxy = rospy.ServiceProxy(service_name, SolvePositionIK)
         ik_request = SolvePositionIKRequest()
@@ -107,10 +109,13 @@ class MotionPath:
 
         try:
             rospy.wait_for_service(service_name, 5.0)
+            # print(f"ik request: {ik_request}")
             response = ik_service_proxy(ik_request)
         except (rospy.ServiceException, rospy.ROSException) as e:
             rospy.logerr("Service call failed: %s" % (e,))
             return
+
+        # print(f"response: \n{response}")
 
         # Check if result valid, and type of seed ultimately used to get solution
         if (response.result_type[0] > 0):
@@ -151,6 +156,15 @@ class MotionPath:
             theta_t_2 = self.ik_service_client(self.trajectory.target_pose(max(t-2*delta_t, 0)))            
             theta_t_1 = self.ik_service_client(self.trajectory.target_pose(max(t-delta_t, 0)))
             theta_t   = self.ik_service_client(self.trajectory.target_pose(t))
+            # print(f"theta_t_2: {theta_t_2}")
+            # print(f"value: {t-2*delta_t}")
+            # print(f"target pose: {self.trajectory.target_pose(max(t-2*delta_t, 0))}")
+            # print(f"theta_t_1: {theta_t_1}")
+            # print(f"value: {t-delta_t}")
+            # print(f"target pose: {self.trajectory.target_pose(max(t-delta_t, 0))}")
+            # print(f"theta_t: {theta_t}")
+            # print(f"value t: {t}")
+            # print(f"target pose: {self.trajectory.target_pose(t)}")
             
             # we said you shouldn't simply take a finite difference when creating
             # the path, why do you think we're doing that here?

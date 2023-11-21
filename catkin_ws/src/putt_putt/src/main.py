@@ -9,7 +9,7 @@ import numpy as np
 import rospkg
 import roslaunch
 
-from paths.trajectories import LinearTrajectory, CircularTrajectory
+from paths.trajectories import LinearTrajectory
 from paths.paths import MotionPath
 from paths.path_planner import PathPlanner
 from controllers.controllers import ( 
@@ -71,7 +71,7 @@ def lookup_tag(tag_number):
 
     Parameters
     ----------
-    tag_number : int
+    tag_number : intself.trajectory.target_pose(max(t-delta_t, 0)))
 
     Returns
     -------
@@ -91,6 +91,7 @@ def lookup_tag(tag_number):
         print("Retrying ...")
 
     tag_pos = [getattr(trans.transform.translation, dim) for dim in ('x', 'y', 'z')]
+    print(tag_pos)
     return np.array(tag_pos)
 
 def get_trajectory(limb, kin, ik_solver, tag_pos, args):
@@ -163,6 +164,7 @@ def main():
     rospy.init_node('ball_detection_node')
     
     camera_tuck()
+    rospy.sleep(2)
     
     # this is used for sending commands (velocity, torque, etc) to the robot
     ik_solver = IK("base", "right_gripper_tip")

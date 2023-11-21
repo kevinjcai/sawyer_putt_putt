@@ -183,13 +183,14 @@ class LinearTrajectory(Trajectory):
         if time <= self.total_time / 2.0:
             # TODO: calculate the position of the end effector at time t, 
             # For the first half of the trajectory, maintain a constant acceleration
-            pos = self.start_position + 0.5 * time **2 * self.acceleration
+            pos = self.start_position + 0.5 * (time **2) * self.acceleration
         else:
             # TODO: Calculate the position of the end effector at time t, 
             # For the second half of the trajectory, maintain a constant acceleration
             # Hint: Calculate the remaining distance to the goal position. 
             t = time - self.total_time / 2.0
-            pos = (self.goal_position + self.start_position) / 2 + self.v_max * t - 0.5 * t **2 * self.acceleration
+            pos = self.start_position + self.distance / 2 - .5 * self.acceleration * (t ** 2) + self.v_max * t
+            # pos = (self.goal_position + self.start_position) / 2 + self.v_max * t - 0.5 * t **2 * self.acceleration
         return np.hstack((pos, self.desired_orientation))
 
     def target_velocity(self, time):
