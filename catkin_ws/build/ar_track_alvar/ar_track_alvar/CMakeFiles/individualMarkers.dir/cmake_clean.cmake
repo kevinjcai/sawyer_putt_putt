@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/devel/lib/ar_track_alvar/individualMarkers"
-  "/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/devel/lib/ar_track_alvar/individualMarkers.pdb"
+  "/home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/devel/lib/ar_track_alvar/individualMarkers"
+  "/home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/devel/lib/ar_track_alvar/individualMarkers.pdb"
   "CMakeFiles/individualMarkers.dir/nodes/IndividualMarkers.cpp.o"
 )
 

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/src
+CMAKE_SOURCE_DIR = /home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build
+CMAKE_BINARY_DIR = /home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/build
 
 # Utility rule file for control_msgs_generate_messages_nodejs.
 
@@ -63,10 +63,10 @@ baxter_pykdl/CMakeFiles/control_msgs_generate_messages_nodejs.dir/build: control
 .PHONY : baxter_pykdl/CMakeFiles/control_msgs_generate_messages_nodejs.dir/build
 
 baxter_pykdl/CMakeFiles/control_msgs_generate_messages_nodejs.dir/clean:
-	cd /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build/baxter_pykdl && $(CMAKE_COMMAND) -P CMakeFiles/control_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
+	cd /home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/build/baxter_pykdl && $(CMAKE_COMMAND) -P CMakeFiles/control_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
 .PHONY : baxter_pykdl/CMakeFiles/control_msgs_generate_messages_nodejs.dir/clean
 
 baxter_pykdl/CMakeFiles/control_msgs_generate_messages_nodejs.dir/depend:
-	cd /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/src /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/src/baxter_pykdl /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build/baxter_pykdl /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build/baxter_pykdl/CMakeFiles/control_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/src /home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/src/baxter_pykdl /home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/build /home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/build/baxter_pykdl /home/cc/ee106a/fa23/class/ee106a-agd/sawyer_putt_putt/catkin_ws/build/baxter_pykdl/CMakeFiles/control_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : baxter_pykdl/CMakeFiles/control_msgs_generate_messages_nodejs.dir/depend
 
