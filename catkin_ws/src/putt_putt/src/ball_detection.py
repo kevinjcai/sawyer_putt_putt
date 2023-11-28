@@ -7,6 +7,8 @@ import rospkg
 import roslaunch
 import tf2_ros
 
+import matplotlib.pyplot as plt
+
 
 from trac_ik_python.trac_ik import IK
 
@@ -68,6 +70,20 @@ if __name__ == '__main__':
 	rospy.init_node('ball_detection', anonymous = True)
 	img_curr_msg = rospy.Subscriber('/io/internal_camera/right_hand_camera/image_raw', Image, callback_img, queue_size = 1)
 	rate = rospy.Rate(.5)
+     
+	rospy.sleep(2)
+	while not rospy.is_shutdown():
+		print("where my image at!")
+		if curr_img is not None:
+			print("IMAGING!")
+			curr_img = curr_img.squeeze()
+			plt.imshow(curr_img, cmap='gray')
+			plt.show()
+			# cv.imshow('image', curr_img)
+			# cv.waitKey(0) 
+			# cv.destroyAllWindows() 
+
+
 
 	# get in position to read from camera
 	# camera_tuck()
@@ -98,24 +114,25 @@ if __name__ == '__main__':
 	# get hole position
 	# get ball position 
 
-	img_counter = 0
-	while not rospy.is_shutdown():
-		if curr_img is not None:
-			img = curr_img
-			circles = cv.HoughCircles(img, cv.HOUGH_GRADIENT, dp=1, minDist=20, param1=50, param2=20, minRadius=0, maxRadius=15)
+	## SAVING PICS! 
+	# img_counter = 0
+	# while not rospy.is_shutdown():
+	# 	if curr_img is not None:
+	# 		img = curr_img
+	# 		circles = cv.HoughCircles(img, cv.HOUGH_GRADIENT, dp=1, minDist=20, param1=50, param2=20, minRadius=0, maxRadius=15)
 
-			if circles is not None:
-				print(circles[0])
+	# 		if circles is not None:
+	# 			print(circles[0])
 
-				for circle in circles[0]:
-					cv.circle(img, (int(circle[0]), int(circle[1])), int(circle[2]), color = (0, 0, 255))
+	# 			for circle in circles[0]:
+	# 				cv.circle(img, (int(circle[0]), int(circle[1])), int(circle[2]), color = (0, 0, 255))
 				
-				cv.imwrite(f'pic{img_counter}.png', img)
-				img_counter += 1
-			else:
-				print("no circles found")
+	# 			cv.imwrite(f'pic{img_counter}.png', img)
+	# 			img_counter += 1
+	# 		else:
+	# 			print("no circles found")
 
-		rate.sleep()
+	# 	rate.sleep()
 
 
 

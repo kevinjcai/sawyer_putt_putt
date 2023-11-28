@@ -135,6 +135,9 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build/ar_track_alvar/ar_track_alvar/cmake_install.cmake")
   include("/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build/putt_putt/cmake_install.cmake")
   include("/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build/baxter_pykdl/cmake_install.cmake")
+  include("/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build/ik/cmake_install.cmake")
+  include("/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build/move_arm/cmake_install.cmake")
+  include("/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build/planning/cmake_install.cmake")
 
 endif()
 

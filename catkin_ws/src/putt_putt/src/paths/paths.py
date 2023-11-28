@@ -91,7 +91,7 @@ class MotionPath:
         pose_stamped = PoseStamped()
         pose_stamped.header = header
 
-        # Set end effector position
+        # Set end effector positionik_service_client
         pose_stamped.pose.position.x = final_pose[0]
         pose_stamped.pose.position.y = final_pose[1]
         pose_stamped.pose.position.z = final_pose[2]

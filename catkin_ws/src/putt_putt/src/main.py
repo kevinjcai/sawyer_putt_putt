@@ -164,6 +164,7 @@ def main():
     rospy.init_node('ball_detection_node')
     
     camera_tuck()
+    # tuck()
     rospy.sleep(2)
     
     # this is used for sending commands (velocity, torque, etc) to the robot

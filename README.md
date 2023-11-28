@@ -7,7 +7,11 @@
 - roslaunch putt_putt swing_start_tuck.launch: brings you to a potential swinging-like position like a foot from the table
 
 # AR Tag Sensing
-- rosrun intera_interface joint_trajectory_action_server.py  # to set up the intera action server
-- roslaunch sawyer_moveit_config sawyer_moveit.launch electric_gripper:=true # to start MoveIt through rviz
-- roslaunch putt_putt sawyer_camera_track.launch # to start AR tracking node
-- rosrun putt_putt main.py -ar_marker [NUM] # works consistently with tuck() from lab7, gives weird nulltype errors from camera_tuck()
+- rosrun intera_interface joint_trajectory_action_server.py  
+    - to set up the intera action server
+- roslaunch sawyer_moveit_config sawyer_moveit.launch electric_gripper:=true
+    - to start MoveIt through rviz
+- roslaunch putt_putt sawyer_camera_track.launch 
+    - to start AR tracking node
+- rosrun putt_putt main.py -ar_marker [NUM] 
+    - works consistently with tuck() from lab7, gives weird nulltype errors from camera_tuck()
