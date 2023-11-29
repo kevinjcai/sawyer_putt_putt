@@ -15,3 +15,16 @@
     - to start AR tracking node
 - rosrun putt_putt main.py -ar_marker [NUM] 
     - works consistently with tuck() from lab7, gives weird nulltype errors from camera_tuck()
+
+
+
+# MOVE IT Lab 5 Stuff
+ - rosrun intera_interface joint_trajectory_action_server.py
+ - roslaunch sawyer_moveit_config sawyer_moveit.launch electric_gripper:=true
+ - START WITH roslaunch intera_examples sawyer_tuck.launch to get position going 
+ - always attatch putter with the flat part of the putter facing the same way as the camera, use holes 1 and 3
+
+
+
+ # getting tip position
+ rosrun tf tf_echo base right_gripper_tip

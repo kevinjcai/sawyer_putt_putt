@@ -43,16 +43,21 @@ def main():
 
 
         joint_getter = rospy.Subscriber('/robot/joint_states', JointState, callback_joints, queue_size = 1)
+        # xyz_getter = rospy.Subscriber('')
 
         def move_to(x, y, z):
             # Set the desired orientation for the end effector HERE
             request.ik_request.pose_stamped.pose.position.x = x
             request.ik_request.pose_stamped.pose.position.y = y
-            request.ik_request.pose_stamped.pose.position.z = z       
-            request.ik_request.pose_stamped.pose.orientation.x = 0.0
-            request.ik_request.pose_stamped.pose.orientation.y = 1.0
-            request.ik_request.pose_stamped.pose.orientation.z = 0.0
-            request.ik_request.pose_stamped.pose.orientation.w = 0.0
+            request.ik_request.pose_stamped.pose.position.z = z     
+            request.ik_request.pose_stamped.pose.orientation.x = 0.
+            request.ik_request.pose_stamped.pose.orientation.y = 1.
+            request.ik_request.pose_stamped.pose.orientation.z = 0.
+            request.ik_request.pose_stamped.pose.orientation.w = 0.
+            # request.ik_request.pose_stamped.pose.orientation.x = 0.006
+            # request.ik_request.pose_stamped.pose.orientation.y = 0.999
+            # request.ik_request.pose_stamped.pose.orientation.z = -0.025
+            # request.ik_request.pose_stamped.pose.orientation.w = 0.033
 
             try:
                 # Send the request to the service
@@ -80,9 +85,9 @@ def main():
             except rospy.ServiceException as e:
                 print("Service call failed: %s"%e)
 
-        # # move_to(0.686, -0.572, 0.208) # above block
+        # move_to(0.686, -0.572, 0.208) # above block # need to start here so joint angles are more consistent 
         # move_to(0.673, -0.570, -0.13) # down low 
-        move_to(0.673, -0.470, -0.14) # move 10 centimeters right 
+        # move_to(0.673, -0.470, -0.14) # move 10 centimeters right  # CHANGE MIDDLE ONE for symmetric position
 
         # rospy.sleep(1) # so joint angles have more than enough time to get situated
         # if joint_angles is not None: # turn the gripper 
@@ -92,20 +97,31 @@ def main():
 
         # read in the joint angles at the desired final position
 
+
+        # # go to setup position
+        os.system(f"rosrun intera_examples go_to_joint_angles.py -q -1.4944794921875 0.5608037109375 -1.655158203125 -1.43123828125 0.968298828125 1.3673369140625 1.766833984375")   
+
+
+        move_to(0.656, -0.371, 0.00) # up 8 cm in same position
         
+        # read xyz so we can use move it
 
         rospy.sleep(1) 
         if joint_angles is not None: # turn the gripper 
              my_joints = joint_angles
              print(my_joints)
              # make putter be in the right orientation
-             # os.system(f"rosrun intera_examples go_to_joint_angles.py -q {my_joints[0]} {my_joints[1]} {my_joints[2]} {my_joints[3]} {my_joints[4]} {my_joints[5]} {my_joints[6] - 0.5 * np.pi}") 
-             # swing back
-             os.system(f"rosrun intera_examples go_to_joint_angles.py -q {my_joints[0]} {my_joints[1]} {my_joints[2]} {my_joints[3]} {my_joints[4] } {my_joints[5] - np.pi/16} {my_joints[6]}")   
-             # swing
-             os.system(f"rosrun intera_examples go_to_joint_angles.py -q {my_joints[0]} {my_joints[1]} {my_joints[2]} {my_joints[3]} {my_joints[4] } {my_joints[5] + np.pi/16 } {my_joints[6] }")   
-        else :
-             print("no joint angles found bud")
+             
+        #      #setup position
+
+             
+             
+        #      # swing back
+        #      os.system(f"rosrun intera_examples go_to_joint_angles.py -q {my_joints[0]} {my_joints[1]} {my_joints[2]} {my_joints[3]} {my_joints[4] } {my_joints[5] - np.pi/16} {my_joints[6]}")   
+        #      # swing
+        #      os.system(f"rosrun intera_examples go_to_joint_angles.py -q {my_joints[0]} {my_joints[1]} {my_joints[2]} {my_joints[3]} {my_joints[4] } {my_joints[5] + np.pi/16 } {my_joints[6] }")   
+        # else :
+        #      print("no joint angles found bud")
 
 
         
