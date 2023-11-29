@@ -71,6 +71,7 @@ if __name__ == '__main__':
 	img_curr_msg = rospy.Subscriber('/io/internal_camera/right_hand_camera/image_raw', Image, callback_img, queue_size = 1)
 	rate = rospy.Rate(.5)
      
+	# DISPLAY ONE
 	rospy.sleep(2)
 	while not rospy.is_shutdown():
 		print("where my image at!")
@@ -119,15 +120,20 @@ if __name__ == '__main__':
 	# while not rospy.is_shutdown():
 	# 	if curr_img is not None:
 	# 		img = curr_img
-	# 		circles = cv.HoughCircles(img, cv.HOUGH_GRADIENT, dp=1, minDist=20, param1=50, param2=20, minRadius=0, maxRadius=15)
+	# 		circles = cv.HoughCircles(img, cv.HOUGH_GRADIENT, dp=1, minDist=20, param1=50, param2=20, minRadius=15, maxRadius=30)
 
 	# 		if circles is not None:
 	# 			print(circles[0])
 
-	# 			for circle in circles[0]:
+				
+
+	# 			for circle in circles[0][:3]:
 	# 				cv.circle(img, (int(circle[0]), int(circle[1])), int(circle[2]), color = (0, 0, 255))
 				
-	# 			cv.imwrite(f'pic{img_counter}.png', img)
+	# 			img = img.squeeze()
+	# 			plt.imshow(img, cmap='gray')
+	# 			plt.show()
+	# 			# cv.imwrite(f'pic{img_counter}.png', img)
 	# 			img_counter += 1
 	# 		else:
 	# 			print("no circles found")

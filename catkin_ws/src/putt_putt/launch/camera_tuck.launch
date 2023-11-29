@@ -1,6 +1,6 @@
 <launch>
   <node name="sawyer_head" pkg="rostopic" type="rostopic" respawn="false" output="screen" args="pub /robot/head/command_head_pan intera_core_msgs/HeadPanCommand '{target: 0, speed_ratio: 1, pan_mode: 1}' -1" />
-  <node name="sawyer_tuck" pkg="intera_examples" type="go_to_joint_angles.py" respawn="false" output="screen" args="-q -0.5566064453125 -0.5610986328125 -1.183966796875 -0.3346494140625 1.41466015625 0.6925712890625 2.3805146484375" />
+  <node name="sawyer_tuck" pkg="intera_examples" type="go_to_joint_angles.py" respawn="false" output="screen" args="-q -1.4320693359375 -0.8975380859375 -0.61080859375 -0.0201376953125 0.5569736328125 0.8893212890625 3.149890625" />
   <!-- <node name="sawyer_tuck" pkg="intera_examples" type="go_to_joint_angles.py" respawn="false" output="screen" args="-q -0.5566064453125 -0.5610986328125 -1.183966796875 1.5 0 -0.5 1.7" /> -->
 </launch>
 

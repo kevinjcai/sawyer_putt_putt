@@ -17,14 +17,34 @@
     - works consistently with tuck() from lab7, gives weird nulltype errors from camera_tuck()
 
 
-
 # MOVE IT Lab 5 Stuff
  - rosrun intera_interface joint_trajectory_action_server.py
  - roslaunch sawyer_moveit_config sawyer_moveit.launch electric_gripper:=true
  - START WITH roslaunch intera_examples sawyer_tuck.launch to get position going 
- - always attatch putter with the flat part of the putter facing the same way as the camera, use holes 1 and 3
-
+ - always attatch putter with the flat part of the putter facing the same way as the camera, use holes 1 and 3 (further from camera)
 
 
  # getting tip position
  rosrun tf tf_echo base right_gripper_tip
+
+
+
+ # running camera
+ - rosrun intera_examples camera_display.py -c right_hand_camera
+
+ 
+ # stuff to know
+ - 515 pixels =  1 meter basically
+ 
+
+
+
+# POSITION THINGS
+- robot: 
+    * x is away from the robot towards computers
+    * y is away from the TA desk towards door
+
+
+- camera:
+    * x is towards the robot away from computers
+    * y is away from the TA desk towards door

@@ -99,7 +99,7 @@ def main():
 
 
         # # go to setup position
-        os.system(f"rosrun intera_examples go_to_joint_angles.py -q -1.4944794921875 0.5608037109375 -1.655158203125 -1.43123828125 0.968298828125 1.3673369140625 1.766833984375")   
+        os.system(f"rosrun intera_examples go_to_joint_angles.py -s 0.3 -q -1.4944794921875 0.5608037109375 -1.655158203125 -1.43123828125 0.968298828125 1.3673369140625 1.766833984375")   
 
 
         move_to(0.656, -0.371, 0.00) # up 8 cm in same position
