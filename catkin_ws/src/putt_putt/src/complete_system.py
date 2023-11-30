@@ -29,6 +29,9 @@ display_holes = False
 start_pixels = (124.5, 279.) # x
 start_position = (0.653, -0.372, -0.091)
 
+def pixels_to_meters(pixels):
+    return np.divide(pixels, PIXELS_TO_METERS)
+
 def move_to_ball(start_pixels, start_position, ball_position):
     x_pixels = start_pixels[0] - ball_position[0]
     y_pixels = ball_position[1] - start_pixels[1]
@@ -195,13 +198,83 @@ if __name__ == '__main__':
             except rospy.ServiceException as e:
                 print("Service call failed: %s"%e)
 
+         def swing_move(x, y, z, xq, yq, zq, wq):
+            # Set the desired orientation for the end effector HERE
+            counter = 0
+            all_plans = []
+            while counter < len(x):
+                request.ik_request.pose_stamped.pose.position.x = x[counter]
+                request.ik_request.pose_stamped.pose.position.y = y[counter]
+                request.ik_request.pose_stamped.pose.position.z = z[counter]
+                request.ik_request.pose_stamped.pose.orientation.x = xq[counter]
+                request.ik_request.pose_stamped.pose.orientation.y = yq[counter]
+                request.ik_request.pose_stamped.pose.orientation.z = zq[counter]
+                request.ik_request.pose_stamped.pose.orientation.w = wq[counter]
+
+                counter += 1
+                
+                try:
+                    # Send the request to the service
+                    response = compute_ik(request)
+                    
+                    # Print the response HERE
+                    print(response)
+                    group = MoveGroupCommander("right_arm")
+
+                    # Setting position and orientation target
+                    group.set_pose_target(request.ik_request.pose_stamped)
+
+                    # TRY THIS
+                    # Setting just the position without specifying the orientation
+                    ###group.set_position_target([0.5, 0.5, 0.0])
+
+                    # Plan IK
+                    plan = group.plan()
+                    user_input = input("Enter 'y' if the trajectory looks safe on RVIZ")
+                    
+                    # Execute IK if safe
+                    if user_input == 'y':
+                        all_plans.append(plan[1])
+                        # group.execute(plan[1])
+                    else:
+                        raise Exception
+                    
+                except rospy.ServiceException as e:
+                    print("Service call failed: %s"%e)
+            
+            for plan in all_plans:
+                group.execute(plan)
+
          
 
         # # go to setup position
          os.system(f"rosrun intera_examples go_to_joint_angles.py -s 0.2 -q -1.4944794921875 0.5608037109375 -1.655158203125 -1.43123828125 0.968298828125 1.3673369140625 1.766833984375")   
          
          swing_start = move_to_ball(start_pixels, start_position, ball_pos)
-         move_to(swing_start[0], swing_start[1], swing_start[2])         
+         move_to(swing_start[0], swing_start[1], swing_start[2]) 
+         
+         y = hole_pos[1] - ball_pos[1]
+         x = hole_pos[0] - ball_pos[0]
+         theta = np.arctan(float(y / x))
+
+        #  back_swing_x = swing_start[0] + .05 * np.cos(theta)
+        #  back_swing_y = swing_start[1] + .05 * np.sin(theta)
+        #  back_swing_z = swing_start[2] - .02
+
+        #  print("curr xyz pos: ", swing_start)
+        #  print("swing x: ", back_swing_x)
+        #  print("swing y: ", back_swing_y)
+        #  print("swing z: ", back_swing_z)
+
+         back_swing_x = [swing_start[0], swing_start[0], swing_start[0]]
+         back_swing_y = [swing_start[1], swing_start[1], swing_start[1]]
+         back_swing_z = [swing_start[2], -.14, swing_start[2]]
+         xq = [0, 0, 0]
+         yq = [.970143, 1, .970143]
+         zq = [0, 0, 0]
+         wq = [.242536, 0, -.242536]
+
+         swing_move(back_swing_x, back_swing_y, back_swing_z, xq, yq, zq, wq)
         
         # # read xyz so we can use move it
 
