@@ -28,7 +28,7 @@ def camera_tuck():
         launch = roslaunch.parent.ROSLaunchParent(uuid, [launch_path])
         launch.start()
     else:
-        print('Canceled. Not tucking the arm.')
+        print('Cancelled. Not tucking the arm.')
 
 # def lookup_tag(tag_number):
 #     """
@@ -56,13 +56,20 @@ def camera_tuck():
 #     tag_pos = [getattr(trans.transform.translation, dim) for dim in ('x', 'y', 'z')]
 #     return np.array(tag_pos)
 
+
+def get_circles_position(img, min_size, max_size):         
+    img = curr_img
+    circles = cv.HoughCircles(img, cv.HOUGH_GRADIENT, dp=1, minDist=20, param1=50, param2=20, minRadius= min_size, maxRadius= max_size)
+
+    if circles is not None:
+        return circles[0] # all fitting ones
+    else:
+        print("no circles found")
+
 def callback_img(msg):
 	global curr_img
 	
 	curr_img = np.frombuffer(msg.data, dtype=np.uint8).reshape(msg.height, msg.width, -1)
-	
-
-
 	
 if __name__ == '__main__':
 
@@ -74,12 +81,16 @@ if __name__ == '__main__':
 	# DISPLAY ONE
 	rospy.sleep(2)
 	while not rospy.is_shutdown():
-		print("where my image at!")
-		if curr_img is not None:
-			print("IMAGING!")
-			curr_img = curr_img.squeeze()
-			plt.imshow(curr_img, cmap='gray')
-			plt.show()
+          print("where my image at!")
+          if curr_img is not None:
+               my_image = curr_img
+               found_circles = get_circles_position(my_image, 0, 40)
+               for circle in found_circles:
+                     cv.circle(my_image, (int(circle[0]), int(circle[1])), int(circle[2]), color = (0, 0, 255))
+			   my_image = my_image.squeeze()
+			   plt.imshow(my_image, cmap='gray')
+			   plt.show()
+             
 			# cv.imshow('image', curr_img)
 			# cv.waitKey(0) 
 			# cv.destroyAllWindows() 

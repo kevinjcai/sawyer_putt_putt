@@ -35,6 +35,7 @@
  
  # stuff to know
  - 515 pixels =  1 meter basically
+ - always attatch putter with the flat part of the putter facing the same way as the camera, use holes 1 and 3 (further from camera)
  
 
 

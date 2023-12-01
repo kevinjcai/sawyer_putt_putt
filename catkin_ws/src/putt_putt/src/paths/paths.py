@@ -81,7 +81,7 @@ class MotionPath:
         Returns:
             np.ndarray: joint angles for the robot
         """
-        print(f"final_pose: {final_pose}")
+        # print(f"final_pose: {final_pose}")
         service_name = "ExternalTools/right/PositionKinematicsNode/IKService"
         ik_service_proxy = rospy.ServiceProxy(service_name, SolvePositionIK)
         ik_request = SolvePositionIKRequest()
