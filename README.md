@@ -20,7 +20,8 @@
 # MOVE IT Lab 5 Stuff
  - rosrun intera_interface joint_trajectory_action_server.py
  - roslaunch sawyer_moveit_config sawyer_moveit.launch electric_gripper:=true
- - START WITH roslaunch intera_examples sawyer_tuck.launch to get position going 
+ - START WITH 
+    - roslaunch intera_examples sawyer_tuck.launch
  - always attatch putter with the flat part of the putter facing the same way as the camera, use holes 1 and 3 (further from camera)
 
 
@@ -35,7 +36,7 @@
  
  # stuff to know
  - 515 pixels =  1 meter basically
- - always attatch putter with the flat part of the putter facing the same way as the camera, use holes 1 and 3 (further from camera)
+ - always attatch putter with the flat part of the putter facing the same way as the camera, use holes 1 and 3 (closer from camera)
  
 
 

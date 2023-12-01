@@ -36,6 +36,8 @@ from sawyer_pykdl import sawyer_kinematics
 
 import os
 
+import moveit_commander
+
 PIXELS_TO_METERS = 515.
 display_holes = False
 start_pixels = (124.5, 279.) # x
@@ -158,7 +160,7 @@ if __name__ == '__main__':
          joint_getter = rospy.Subscriber('/robot/joint_states', JointState, callback_joints, queue_size = 1)
         # xyz_getter = rospy.Subscriber('')
 
-         def move_to(x, y, z, speed = 0.1):
+         def move_to(x, y, z, speed = .25):
             # Set the desired orientation for the end effector HERE
             request.ik_request.pose_stamped.pose.position.x = x
             request.ik_request.pose_stamped.pose.position.y = y
@@ -175,8 +177,8 @@ if __name__ == '__main__':
                 # Print the response HERE
                 #  print("response", response)
                 group = MoveGroupCommander("right_arm")
-                group.set_max_velocity_scaling_factor(speed) 
-
+                # group.limit_max_cartesian_link_speed(speed)
+                # group.set_max_velocity_scaling_factor(1.0) 
                 # Setting position and orientation target
                 group.set_pose_target(request.ik_request.pose_stamped)
 
@@ -187,13 +189,22 @@ if __name__ == '__main__':
 
                 # Plan IK
                 plan = group.plan()
+                # my_joints = None
+                # while my_joints is None:
+                #     my_joints = joint_angles
+                # print(my_joints)
+                # print("robot commande:", moveit_commander.RobotCommander().get_current_state())
+                plan = group.retime_trajectory(moveit_commander.RobotCommander().get_current_state(), plan[1], velocity_scaling_factor=speed)
+                # plan = group.retime_trajectory(group.get_current_state(), plan, velocity_scaling_factor=1)
+                # plan = group.retime_trajectory(my_joints, plan, velocity_scaling_factor=1)
                 # print(plan)
-                user_input = input("Enter 'y' if the trajectory looks safe on RVIZ")
+                user_input = input("Enter 'y' if the trajectory looks safe on RVIZ: ")
                 
                 # Execute IK if safe
                 if user_input == 'y':
                     print("yuh let's go")
-                    group.execute(plan[1])
+                    # group.go(wait=True)
+                    group.execute(plan)
                     return True 
                 return False
                 
@@ -254,42 +265,60 @@ if __name__ == '__main__':
          
          front_position = np.array([front_swing_x, front_swing_y, front_swing_z])
 
-         accepted_move = False
-         while not accepted_move:
-             accepted_move = move_to(front_swing_x, front_swing_y, front_swing_z, speed = 1)
+        #  accepted_move = False
+        #  while not accepted_move:
+        #      accepted_move = move_to(front_swing_x, front_swing_y, front_swing_z, speed=2.0)
 
 # GO TOWARDS HOLE 
+
         #  hole_pos_meters = move_to_ball(ball_pos, back_position, hole_pos)
         #  accepted_move = False
         #  while not accepted_move:
         #      accepted_move = move_to(hole_pos_meters[0], hole_pos_meters[1], hole_pos_meters[2], speed = 0.1)
 
 # ## LAB 7 FOR THE FINAL STRETCH! SO WE CAN SET SPEED
-        #  ik_solver = IK("base", "right_gripper_tip")
-        #  limb = intera_interface.Limb("right")
-        #  kin = sawyer_kinematics("right")
-         
-        #  trajectory = LinearTrajectory(start_position=back_position, goal_position=front_position, total_time=2) # change time depending on desired speed
-        #  trajectory.display_trajectory()
-        #  path = MotionPath(limb, kin, ik_solver, trajectory)
-        #  robot_trajectory = path.to_robot_trajectory(20, True) 
+         tfBuffer = tf2_ros.Buffer()
+         listener = tf2_ros.TransformListener(tfBuffer)
 
-        #  planner = PathPlanner('right_arm')
+         try:
+            trans = tfBuffer.lookup_transform('base', 'right_hand', rospy.Time(0), rospy.Duration(10.0))
+         except Exception as e:
+            print(e)
+         current_position = np.array([getattr(trans.transform.translation, dim) for dim in ('x', 'y', 'z')])
+         print("Current Position:", current_position)
 
+         ik_solver = IK("base", "right_gripper_tip")
+         limb = intera_interface.Limb("right")
+         kin = sawyer_kinematics("right")
          
+         trajectory = LinearTrajectory(start_position=current_position, goal_position=front_position, total_time=2) # change time depending on desired speed
+         trajectory.display_trajectory()
+         path = MotionPath(limb, kin, ik_solver, trajectory)
+         print("287")
+         robot_trajectory = path.to_robot_trajectory(20, True) 
+
+         planner = PathPlanner('right_arm')
+
+         print("AFter")
     
-        #  # By publishing the trajectory to the move_group/display_planned_path topic, you should 
-        # # be able to view it in RViz.  You will have to click the "loop animation" setting in 
-        # # the planned path section of MoveIt! in the menu on the left side of the screen.
-        #  pub = rospy.Publisher('move_group/display_planned_path', DisplayTrajectory, queue_size=10)
-        #  disp_traj = DisplayTrajectory()
-        #  disp_traj.trajectory.append(robot_trajectory)
-        #  disp_traj.trajectory_start = RobotState()
-        #  pub.publish(disp_traj)
+         # By publishing the trajectory to the move_group/display_planned_path topic, you should 
+        # be able to view it in RViz.  You will have to click the "loop animation" setting in 
+        # the planned path section of MoveIt! in the menu on the left side of the screen.
+         pub = rospy.Publisher('move_group/display_planned_path', DisplayTrajectory, queue_size=10)
+         disp_traj = DisplayTrajectory()
+         disp_traj.trajectory.append(robot_trajectory)
+         disp_traj.trajectory_start = RobotState()
+         pub.publish(disp_traj)
+         user_input = input("Enter 'y' if the trajectory looks safe on RVIZ: ")
+                
+                # Execute IK if safe
+         if user_input != 'y':
+            raise Exception
+    
 
-        #  planner.execute_plan(robot_trajectory)
-        
-        # # read xyz so we can use move it
+         planner.execute_plan(robot_trajectory)
+         
+        # read xyz so we can use move it
 
         # rospy.sleep(1) 
         # if joint_angles is not None: # turn the gripper 
