@@ -84,12 +84,12 @@ if __name__ == '__main__':
           print("where my image at!")
           if curr_img is not None:
                my_image = curr_img
-               found_circles = get_circles_position(my_image, 0, 40)
+               found_circles = get_circles_position(my_image, 0, 12)
                for circle in found_circles:
                      cv.circle(my_image, (int(circle[0]), int(circle[1])), int(circle[2]), color = (0, 0, 255))
-			   my_image = my_image.squeeze()
-			   plt.imshow(my_image, cmap='gray')
-			   plt.show()
+               my_image = my_image.squeeze()
+               plt.imshow(my_image, cmap='gray')
+               plt.show()
              
 			# cv.imshow('image', curr_img)
 			# cv.waitKey(0) 

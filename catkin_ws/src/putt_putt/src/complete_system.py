@@ -37,6 +37,8 @@ from sawyer_pykdl import sawyer_kinematics
 import os
 
 import moveit_commander
+from moveit_msgs.msg import RobotTrajectory
+
 
 PIXELS_TO_METERS = 515.
 display_holes = False
@@ -122,6 +124,8 @@ if __name__ == '__main__':
      camera_tuck() 
      # get a scan
      
+     rospy.sleep(3)
+
      my_image = get_scan()
      
      # calculate desired position based on image
@@ -229,8 +233,8 @@ if __name__ == '__main__':
 
          
 
-         back_swing_x = swing_start[0] + .1 * np.cos(theta)
-         back_swing_y = swing_start[1] + .1 * np.sin(theta)
+         back_swing_x = swing_start[0] + .14 * np.cos(theta)
+         back_swing_y = swing_start[1] + .14 * np.sin(theta)
          back_swing_z = swing_start[2] - .04
 
          back_position = np.array([back_swing_x, back_swing_y, back_swing_z])
@@ -238,17 +242,8 @@ if __name__ == '__main__':
         #  print("curr xyz pos: ", swing_start)
         #  print("swing x: ", back_swing_x)
         #  print("swing y: ", back_swing_y)
-        #  print("swing z: ", back_swing_z)
-         rospy.sleep(2)
-         my_joints = None
-         while my_joints is None:
-             my_joints = joint_angles
-        
+        #  print("swing z: ", back_swing_z) 
 
-         os.system(f"rosrun intera_examples go_to_joint_angles.py -q {my_joints[0]} {my_joints[1]} {my_joints[2]} {my_joints[3]} {my_joints[4] } {my_joints[5]} {my_joints[6] + theta}")   
-
-
-         
          accepted_move = False
          while not accepted_move:
              accepted_move = move_to(back_swing_x, back_swing_y, swing_start[2] + .02)
@@ -259,15 +254,73 @@ if __name__ == '__main__':
 
 
 ### FRONT SWING 
-         front_swing_x = swing_start[0] - .12 * np.cos(theta)
-         front_swing_y = swing_start[1] - .12 * np.sin(theta)
+         front_swing_x = swing_start[0] - .05 * np.cos(theta)
+         front_swing_y = swing_start[1] - .05 * np.sin(theta)
          front_swing_z = swing_start[2] - .04
          
          front_position = np.array([front_swing_x, front_swing_y, front_swing_z])
 
-        #  accepted_move = False
-        #  while not accepted_move:
-        #      accepted_move = move_to(front_swing_x, front_swing_y, front_swing_z, speed=2.0)
+         rospy.sleep(2)
+         my_joints = None
+         while my_joints is None:
+             my_joints = joint_angles
+        
+
+         os.system(f"rosrun intera_examples go_to_joint_angles.py -q {my_joints[0]} {my_joints[1]} {my_joints[2]} {my_joints[3]} {my_joints[4] } {my_joints[5]} {my_joints[6] + theta}")  
+
+         accepted_move = False
+         while not accepted_move:
+            #  accepted_move = move_to(front_swing_x, front_swing_y, front_swing_z, speed=20.0)
+             # Set the desired orientation for the end effector HERE
+             request.ik_request.pose_stamped.pose.position.x = front_swing_x
+             request.ik_request.pose_stamped.pose.position.y = front_swing_y
+             request.ik_request.pose_stamped.pose.position.z = front_swing_z
+             request.ik_request.pose_stamped.pose.orientation.x = 0.
+             request.ik_request.pose_stamped.pose.orientation.y = 1.
+             request.ik_request.pose_stamped.pose.orientation.z = 0.
+             request.ik_request.pose_stamped.pose.orientation.w = 0.
+             
+             try:
+                 # Send the request to the service
+                 response = compute_ik(request)
+                 group = MoveGroupCommander("right_arm")
+                 group.set_pose_target(request.ik_request.pose_stamped)
+
+                 # Plan IK
+                 plan = group.plan() # tuple
+                 plan_list = list(plan) # list
+                 traj = plan_list[1] # RobotTrajectory
+                 new_traj = RobotTrajectory()
+                 new_traj.joint_trajectory = traj.joint_trajectory
+                 n_joints = len(traj.joint_trajectory.joint_names)
+                 n_points = len(traj.joint_trajectory.points)
+
+                 spd = 15.0
+
+                 for i in range(n_points):
+                     traj.joint_trajectory.points[i].time_from_start = traj.joint_trajectory.points[i].time_from_start / spd
+                     new_traj.joint_trajectory.points[i].velocities = list(new_traj.joint_trajectory.points[i].velocities)
+                     new_traj.joint_trajectory.points[i].accelerations = list(new_traj.joint_trajectory.points[i].accelerations)
+                     new_traj.joint_trajectory.points[i].positions = list(new_traj.joint_trajectory.points[i].positions)
+                     for j in range(n_joints):
+                         new_traj.joint_trajectory.points[i].velocities[j] = traj.joint_trajectory.points[i].velocities[j] * spd
+                         new_traj.joint_trajectory.points[i].accelerations[j] = traj.joint_trajectory.points[i].accelerations[j] * spd
+                         new_traj.joint_trajectory.points[i].positions[j] = traj.joint_trajectory.points[i].positions[j]
+                 user_input = input("Enter 'y' if the trajectory looks safe on RVIZ: ")
+                 
+                 # Execute IK if safe
+                 if user_input == 'y':
+                     print("yuh let's go")
+                     # group.go(wait=True)
+                     group.execute(new_traj)
+                     accepted_move = True 
+                 else:
+                     accepted_move = False
+                 
+             except rospy.ServiceException as e:
+                 print("Service call failed: %s"%e)
+                 accepted_move = False
+ 
 
 # GO TOWARDS HOLE 
 
@@ -277,46 +330,46 @@ if __name__ == '__main__':
         #      accepted_move = move_to(hole_pos_meters[0], hole_pos_meters[1], hole_pos_meters[2], speed = 0.1)
 
 # ## LAB 7 FOR THE FINAL STRETCH! SO WE CAN SET SPEED
-         tfBuffer = tf2_ros.Buffer()
-         listener = tf2_ros.TransformListener(tfBuffer)
+        #  tfBuffer = tf2_ros.Buffer()
+        #  listener = tf2_ros.TransformListener(tfBuffer)
 
-         try:
-            trans = tfBuffer.lookup_transform('base', 'right_hand', rospy.Time(0), rospy.Duration(10.0))
-         except Exception as e:
-            print(e)
-         current_position = np.array([getattr(trans.transform.translation, dim) for dim in ('x', 'y', 'z')])
-         print("Current Position:", current_position)
+        #  try:
+        #     trans = tfBuffer.lookup_transform('base', 'right_hand', rospy.Time(0), rospy.Duration(10.0))
+        #  except Exception as e:
+        #     print(e)
+        #  current_position = np.array([getattr(trans.transform.translation, dim) for dim in ('x', 'y', 'z')])
+        #  print("Current Position:", current_position)
 
-         ik_solver = IK("base", "right_gripper_tip")
-         limb = intera_interface.Limb("right")
-         kin = sawyer_kinematics("right")
+        #  ik_solver = IK("base", "right_gripper_tip")
+        #  limb = intera_interface.Limb("right")
+        #  kin = sawyer_kinematics("right")
          
-         trajectory = LinearTrajectory(start_position=current_position, goal_position=front_position, total_time=2) # change time depending on desired speed
-         trajectory.display_trajectory()
-         path = MotionPath(limb, kin, ik_solver, trajectory)
-         print("287")
-         robot_trajectory = path.to_robot_trajectory(20, True) 
+        #  trajectory = LinearTrajectory(start_position=current_position, goal_position=front_position, total_time=2) # change time depending on desired speed
+        #  trajectory.display_trajectory()
+        #  path = MotionPath(limb, kin, ik_solver, trajectory)
+        #  print("287")
+        #  robot_trajectory = path.to_robot_trajectory(20, True) 
 
-         planner = PathPlanner('right_arm')
+        #  planner = PathPlanner('right_arm')
 
-         print("AFter")
+        #  print("AFter")
     
-         # By publishing the trajectory to the move_group/display_planned_path topic, you should 
-        # be able to view it in RViz.  You will have to click the "loop animation" setting in 
-        # the planned path section of MoveIt! in the menu on the left side of the screen.
-         pub = rospy.Publisher('move_group/display_planned_path', DisplayTrajectory, queue_size=10)
-         disp_traj = DisplayTrajectory()
-         disp_traj.trajectory.append(robot_trajectory)
-         disp_traj.trajectory_start = RobotState()
-         pub.publish(disp_traj)
-         user_input = input("Enter 'y' if the trajectory looks safe on RVIZ: ")
+        #  # By publishing the trajectory to the move_group/display_planned_path topic, you should 
+        # # be able to view it in RViz.  You will have to click the "loop animation" setting in 
+        # # the planned path section of MoveIt! in the menu on the left side of the screen.
+        #  pub = rospy.Publisher('move_group/display_planned_path', DisplayTrajectory, queue_size=10)
+        #  disp_traj = DisplayTrajectory()
+        #  disp_traj.trajectory.append(robot_trajectory)
+        #  disp_traj.trajectory_start = RobotState()
+        #  pub.publish(disp_traj)
+        #  user_input = input("Enter 'y' if the trajectory looks safe on RVIZ: ")
                 
-                # Execute IK if safe
-         if user_input != 'y':
-            raise Exception
+        #         # Execute IK if safe
+        #  if user_input != 'y':
+        #     raise Exception
     
 
-         planner.execute_plan(robot_trajectory)
+        #  planner.execute_plan(robot_trajectory)
          
         # read xyz so we can use move it
 
