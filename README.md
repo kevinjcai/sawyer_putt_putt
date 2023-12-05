@@ -22,12 +22,10 @@
  - roslaunch sawyer_moveit_config sawyer_moveit.launch electric_gripper:=true
  - START WITH 
     - roslaunch intera_examples sawyer_tuck.launch
- - always attatch putter with the flat part of the putter facing the same way as the camera, use holes 1 and 3 (further from camera)
 
 
  # getting tip position
  rosrun tf tf_echo base right_gripper_tip
-
 
 
  # running camera
@@ -36,7 +34,7 @@
  
  # stuff to know
  - 515 pixels =  1 meter basically
- - always attatch putter with the flat part of the putter facing the same way as the camera, use holes 1 and 3 (closer from camera)
+ - always attatch putter with the flat part of the putter facing the same way as the camera, use holes 2 and 4 (closer from camera)
  
 
 
@@ -45,7 +43,6 @@
 - robot: 
     * x is away from the robot towards computers
     * y is away from the TA desk towards door
-
 
 - camera:
     * x is towards the robot away from computers

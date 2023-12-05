@@ -8,3 +8,4 @@
 
 # modified environment variables
 export PWD='/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build'
+export PYTHONPATH="/home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/devel/lib/python3/dist-packages:$PYTHONPATH"

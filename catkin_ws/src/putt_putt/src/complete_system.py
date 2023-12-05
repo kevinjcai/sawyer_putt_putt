@@ -18,6 +18,7 @@ from trac_ik_python.trac_ik import IK
 
 import rospy
 from moveit_msgs.srv import GetPositionIK, GetPositionIKRequest, GetPositionIKResponse
+from moveit_msgs.msg import OrientationConstraint, Constraints
 from geometry_msgs.msg import PoseStamped
 from sensor_msgs.msg import JointState
 from moveit_commander import MoveGroupCommander
@@ -231,11 +232,9 @@ if __name__ == '__main__':
          x = hole_pos[0] - ball_pos[0]
          theta = np.arctan(float(y / x))
 
-         
-
          back_swing_x = swing_start[0] + .14 * np.cos(theta)
-         back_swing_y = swing_start[1] + .14 * np.sin(theta)
-         back_swing_z = swing_start[2] - .04
+         back_swing_y = swing_start[1] - .14 * np.sin(theta)
+         back_swing_z = swing_start[2] - .03
 
          back_position = np.array([back_swing_x, back_swing_y, back_swing_z])
 
@@ -255,8 +254,8 @@ if __name__ == '__main__':
 
 ### FRONT SWING 
          front_swing_x = swing_start[0] - .05 * np.cos(theta)
-         front_swing_y = swing_start[1] - .05 * np.sin(theta)
-         front_swing_z = swing_start[2] - .04
+         front_swing_y = swing_start[1] + .05 * np.sin(theta)
+         front_swing_z = swing_start[2] - .03
          
          front_position = np.array([front_swing_x, front_swing_y, front_swing_z])
 
@@ -265,9 +264,10 @@ if __name__ == '__main__':
          while my_joints is None:
              my_joints = joint_angles
         
-
+        # twist towards hole
          os.system(f"rosrun intera_examples go_to_joint_angles.py -q {my_joints[0]} {my_joints[1]} {my_joints[2]} {my_joints[3]} {my_joints[4] } {my_joints[5]} {my_joints[6] + theta}")  
 
+         # PUSH
          accepted_move = False
          while not accepted_move:
             #  accepted_move = move_to(front_swing_x, front_swing_y, front_swing_z, speed=20.0)
@@ -280,14 +280,29 @@ if __name__ == '__main__':
              request.ik_request.pose_stamped.pose.orientation.z = 0.
              request.ik_request.pose_stamped.pose.orientation.w = 0.
              
+             orien_const = OrientationConstraint()
+             orien_const.link_name = "right_gripper"
+             orien_const.header.frame_id = "base"
+             orien_const.orientation.y = -1.0
+             orien_const.absolute_x_axis_tolerance = 0.1
+             orien_const.absolute_y_axis_tolerance = 0.1
+             orien_const.absolute_z_axis_tolerance = 0.1
+             orien_const.weight = 1.0
+
              try:
                  # Send the request to the service
                  response = compute_ik(request)
                  group = MoveGroupCommander("right_arm")
+                 
+                 # plan IK
                  group.set_pose_target(request.ik_request.pose_stamped)
+                 constraints = Constraints() 
+                 constraints.orientation_constraints = [orien_const]
+                 group.set_path_constraints(constraints)
 
-                 # Plan IK
                  plan = group.plan() # tuple
+
+
                  plan_list = list(plan) # list
                  traj = plan_list[1] # RobotTrajectory
                  new_traj = RobotTrajectory()
@@ -295,7 +310,7 @@ if __name__ == '__main__':
                  n_joints = len(traj.joint_trajectory.joint_names)
                  n_points = len(traj.joint_trajectory.points)
 
-                 spd = 15.0
+                 spd = 15
 
                  for i in range(n_points):
                      traj.joint_trajectory.points[i].time_from_start = traj.joint_trajectory.points[i].time_from_start / spd

@@ -242,6 +242,21 @@ baxter_maintenance_msgs_generate_messages_cpp/fast:
 	cd /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build && $(MAKE) -f planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_cpp.dir/build.make planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_cpp.dir/build
 .PHONY : baxter_maintenance_msgs_generate_messages_cpp/fast
 
+# Convenience name for target.
+planning/CMakeFiles/_catkin_empty_exported_target.dir/rule:
+	cd /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 planning/CMakeFiles/_catkin_empty_exported_target.dir/rule
+.PHONY : planning/CMakeFiles/_catkin_empty_exported_target.dir/rule
+
+# Convenience name for target.
+_catkin_empty_exported_target: planning/CMakeFiles/_catkin_empty_exported_target.dir/rule
+
+.PHONY : _catkin_empty_exported_target
+
+# fast build rule for target.
+_catkin_empty_exported_target/fast:
+	cd /home/cc/ee106a/fa23/class/ee106a-aei/sawyer_putt_putt/catkin_ws/build && $(MAKE) -f planning/CMakeFiles/_catkin_empty_exported_target.dir/build.make planning/CMakeFiles/_catkin_empty_exported_target.dir/build
+.PHONY : _catkin_empty_exported_target/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -260,6 +275,7 @@ help:
 	@echo "... baxter_maintenance_msgs_generate_messages_lisp"
 	@echo "... baxter_maintenance_msgs_generate_messages_eus"
 	@echo "... baxter_maintenance_msgs_generate_messages_cpp"
+	@echo "... _catkin_empty_exported_target"
 .PHONY : help
 
 
